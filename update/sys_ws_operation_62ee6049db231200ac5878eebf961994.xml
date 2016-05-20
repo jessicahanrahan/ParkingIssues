@@ -9,6 +9,8 @@
         <http_method>POST</http_method>
         <name>report_issue</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	gs.info(gs.getUserName() + " called " + request.uri);
+	gs.debug(JSON.stringify(request.queryParams));
 	// Get the query parameters from the request (all strings)
 	var licensePlate = request.queryParams.license_plate+'';
 	var color = request.queryParams.color+'';
@@ -16,12 +18,14 @@
 	var model = request.queryParams.model+'';
 	var description = request.queryParams.description+'';
 	
+	gs.debug("licensePlate={0}, color={1}, make={2}, model={3}, description={4}",licensePlate,color,make,model,description);
 	// Lookup the employee car using the parameters
 	// DONE: Create EmployeeCar script include 
 	// DONE: Add method find() which accepts the specified string parms
 	//       and returns a GlideRecord (if found) or null (not found)
 	var car = new EmployeeCar().find(licensePlate, color, make, model);
 	if (!car) {
+		gs.warn("Car could not be found with licensePlate={0}, color={1}, make={2}, model={3}",licensePlate, color, make,model);
 		// Return a 404 not found
 		return new sn_ws_err.NotFoundError("Car could not be found");
 	}
@@ -55,7 +59,7 @@
         <sys_created_on>2016-05-20 19:20:24</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>62ee6049db231200ac5878eebf961994</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>report_issue</sys_name>
         <sys_package display_value="Parking Issues" source="x_pir">2bc7b833673212008db1bcb532415a9d</sys_package>
         <sys_policy>read</sys_policy>
@@ -63,7 +67,7 @@
         <sys_scope display_value="Parking Issues">2bc7b833673212008db1bcb532415a9d</sys_scope>
         <sys_update_name>sys_ws_operation_62ee6049db231200ac5878eebf961994</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2016-05-20 19:48:54</sys_updated_on>
+        <sys_updated_on>2016-05-20 20:15:52</sys_updated_on>
         <web_service_definition display_value="Parking Issue">8a8de809db231200ac5878eebf961968</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
